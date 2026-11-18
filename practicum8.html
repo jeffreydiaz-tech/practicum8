@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Nest - Karunya University</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f4;
+            color: #163020;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Dark Green Header */
+        .top-header {
+            background-color: #163b28;
+            color: #ffffff;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-btn {
+            background-color: #3b825d;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .menu-btn:hover {
+            background-color: #4ea377;
+        }
+
+        /* Secondary Navigation Bar */
+        .sub-nav {
+            background-color: #2c6648;
+            padding: 12px 30px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .sub-nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sub-nav a:hover {
+            color: #b7d4c4;
+            text-decoration: underline;
+        }
+
+        /* Page Views */
+        #platform-view {
+            display: block;
+            flex: 1;
+        }
+
+        #home-website-view {
+            display: none;
+            padding: 25px;
+            flex: 1;
+            background-color: #ffffff;
+        }
+
+        /* Platform Layout */
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .layout-grid {
+            display: flex;
+            gap: 24px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .left-section {
+            flex: 3;
+            min-width: 300px;
+        }
+
+        .section-heading {
+            font-size: 26px;
+            font-weight: 700;
+            color: #163020;
+            margin-bottom: 24px;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stream-card {
+            background-color: #ffffff;
+            border: 1px solid #d9e2dc;
+            border-radius: 12px;
+            padding: 16px;
+            flex: 1;
+            min-width: 210px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stream-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-banner {
+            height: 155px;
+            border-radius: 8px;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+            padding: 12px;
+        }
+
+        .banner-1 { background-color: #2c6648; }
+        .banner-2 { background-color: #3b825d; }
+        .banner-3 { background-color: #1d422e; }
+
+        .stream-card h3 {
+            font-size: 16px;
+            color: #163020;
+            margin-bottom: 8px;
+        }
+
+        .stream-card p {
+            font-size: 13.5px;
+            color: #4a5d52;
+            line-height: 1.4;
+        }
+
+        /* Right Sidebar Card */
+        .sidebar-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: #c2e3cd;
+            border: 1px solid #2c6648;
+            border-radius: 12px;
+            padding: 32px 22px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sidebar-card h4 {
+            font-size: 16px;
+            color: #163020;
+            margin-bottom: 14px;
+        }
+
+        .sidebar-card .highlight-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #163020;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-card p {
+            font-size: 13.5px;
+            color: #244231;
+            line-height: 1.5;
+        }
+
+        /* Dark Footer */
+        .footer {
+            background-color: #0c2618;
+            color: #88b39b;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            margin-top: auto;
+        }
+
+        /* Lightbox Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 460px;
+            position: relative;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="brand">🧩 Puzzle Nest Platform</div>
+        <button class="menu-btn" onclick="toggleNav()">☰ Menu</button>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="sub-nav" id="subNav">
+        <a onclick="showHomeWebsite()">Home</a>
+        <a onclick="showPlatform()">Puzzle Streams</a>
+        <a onclick="openLightbox('Guides & Resources', 'Downloadable PDF handbooks, audio intros, and walkthroughs available on the Home page.')">Guides & Media</a>
+        <a onclick="openLightbox('Karunya Campus Hub', 'Located at Karunya Institute of Technology and Sciences, Coimbatore. Click Home to view the interactive campus map.')">Campus Hub</a>
+    </nav>
+
+    <!-- VIEW 1: PLATFORM DASHBOARD (Default View) -->
+    <div id="platform-view">
+        <main class="main-container">
+            <div class="layout-grid">
+                
+                <div class="left-section">
+                    <h2 class="section-heading">Explore Puzzle Nest Streams</h2>
+
+                    <div class="cards-row">
+                        <div class="stream-card" onclick="openLightbox('Logic Puzzles', 'Sharpen your analytical thinking with pattern recognition, grid deductions, and daily brain teasers.')">
+                            <div class="card-banner banner-1">Logic Grids</div>
+                            <h3>Logic & Deduction</h3>
+                            <p>Level 1–5 • Pattern & reasoning challenges</p>
+                        </div>
+
+                        <div class="stream-card" onclick="openLightbox('Campus Media & Guides', 'Access audio introductions, facility tour videos, and downloadable PDF guides directly on the Home page.')">
+                            <div class="card-banner banner-2">Media Hub</div>
+                            <h3>Guides & Walkthroughs</h3>
+                            <p>PDFs & Videos • Campus handbooks & demos</p>
+                        </div>
+
+                        <div class="stream-card" onclick="openLightbox('Interactive Campus Map', 'Find departments, innovation labs, and event venues at Karunya Institute of Technology and Sciences.')">
+                            <div class="card-banner banner-3">Campus Map</div>
+                            <h3>Karunya University</h3>
+                            <p>Coimbatore • Interactive location & tour</p>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="sidebar-card">
+                    <h4>🌱 Campus Spotlight</h4>
+                    <div class="highlight-title">Puzzle Nest Challenge Week!</div>
+                    <p>Click <strong>Home</strong> in the top menu to open your full Karunya University website with audio, videos, PDF guide, and campus map.</p>
+                </aside>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- VIEW 2: YOUR ORIGINAL PUZZLE NEST WEBSITE (Opens when clicking Home) -->
+    <div id="home-website-view">
+        <center>
+            <h1>Puzzle Nest</h1>
+            <h3>Karunya Institute of Technology and Sciences</h3>
+            <br>
+            <a href="#audio">Audio Intro</a> | 
+            <a href="#location">Location Map</a> | 
+            <a href="#guide">PDF Guide</a> | 
+            <a href="#video">Video Tour</a>
+            <br><br>
+
+            <div id="audio">
+                <label for="bg-audio"><strong>Play Intro Audio:</strong></label><br>
+                <audio id="bg-audio" controls>
+                    <source src="audio1.mp3" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <br>
+        </center>
+
+        <hr><br>
+
+        <div>
+            <img src="pic1.jpg" alt="Karunya Campus Banner" width="100%" height="350" style="object-fit: cover;">
+        </div>
+        <br>
+
+        <table width="100%" cellspacing="10">
+            <tr>
+                <td width="50%" valign="top" id="guide">
+                    <h3>Information Guide (PDF)</h3>
+                    <object data="pdf1.pdf" type="application/pdf" width="100%" height="300">
+                        <p>It appears your browser doesn't support embedded PDFs. 
+                           <a href="pdf1.pdf">Click here to download the PDF</a>.
+                        </p>
+                    </object>
+                    <br><br>
+                    <a href="pdf1.pdf" download>Download PDF File</a>
+                </td>
+
+                <td width="50%" valign="top" id="video">
+                    <h3>Campus Overview Video</h3>
+                    <iframe width="100%" height="300" 
+                            src="https://www.youtube.com/embed/uBhSIKLlvdk" 
+                            title="Campus YouTube Video" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" valign="top">
+                    <h3>Facility Demonstration</h3>
+                    <video width="100%" height="300" controls muted autoplay loop>
+                        <source src="vid1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </td>
+
+                <td width="50%" valign="top" id="location">
+                    <h3>Location Map</h3>
+                    <iframe src="https://maps.google.com/maps?q=Karunya%20Institute%20of%20Technology%20and%20Sciences&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="300" 
+                            frameborder="0" 
+                            style="border:0;" 
+                            allowfullscreen>
+                    </iframe>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2026 Puzzle Nest • Karunya Institute of Technology and Sciences
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="infoModal" class="modal" onclick="closeLightboxOutside(event)">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeLightbox()">×</span>
+            <h2 id="modalTitle" style="color: #163020; margin-bottom: 10px;">Title</h2>
+            <p id="modalDescription" style="color: #333; line-height: 1.6;">Description</p>
+        </div>
+    </div>
+
+    <script>
+        function showHomeWebsite() {
+            document.getElementById('platform-view').style.display = 'none';
+            document.getElementById('home-website-view').style.display = 'block';
+        }
+
+        function showPlatform() {
+            document.getElementById('home-website-view').style.display = 'none';
+            document.getElementById('platform-view').style.display = 'block';
+        }
+
+        function toggleNav() {
+            const nav = document.getElementById('subNav');
+            nav.style.display = (nav.style.display === 'none') ? 'flex' : 'none';
+        }
+
+        function openLightbox(title, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        function closeLightboxOutside(event) {
+            if (event.target === document.getElementById('infoModal')) {
+                closeLightbox();
+            }
+        }
+    </script>
+
+</body>
+</html>
